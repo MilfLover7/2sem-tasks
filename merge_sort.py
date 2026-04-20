@@ -1,42 +1,48 @@
 def merge_sort(elements):
-    """"
-    Сортировка слиением
+    """ сортировка слиянием
+    ввод при помощи:
+from merge_sort import *
 
-    """
+elements = input()
+elements = [int(g) for g in elements.split()]
+elements = merge_sort(elements)
+
+print(elements) """
+
 
     if len(elements) <= 1:
         return elements
 
-    n = len(elements)
-    extra_array = [0]*n  #Массив в который мы будем записывать элементы после слияния
-    size = 1   #  размер начального массива, который будет сортироваться
+    stack = [(0, len(elements) - 1, False)]  # лево, право, делать не делать (False - продолжать деление, True - сливать)
 
-    while size < n:
-        for left in range(0, n, size* 2):
-            midl = min(left + size - 1, n - 1) # последний индекс первого блока
-            right = min(left + size* 2 - 1, n - 1) # последний индекс второго блока
-            if midl >= right:  #проверяем наличие следубщих блоков для слияния, если его нет следующий кусок кода
-                pass
-# слияние отсортированных подмасивов
-            i, j, k, = left, midl + 1, left
-            while i <= midl and j <= right:
+    while stack:  # типо пока он не пуст делим все на ()()()
+        left, right, do_merge = stack.pop()
+
+        if left >= right:
+            continue
+
+        if do_merge == False:
+            mid = (left + right) // 2  # серединка отрезка
+#наполняем стек
+            stack.append((left, right, True))  # слияние ???????
+            stack.append((mid + 1, right, False))  # право
+            stack.append((left, mid, False))  # лево обратный порядок тк стек
+
+        else: #когда добрались до true
+            mid = (left + right) // 2
+            mer = []
+            i, j = left, mid + 1
+
+            while i <= mid and j <= right:
                 if elements[i] <= elements[j]:
-                    extra_array[k] = elements[i]
+                    mer.append(elements[i])
                     i += 1
                 else:
-                    extra_array[k]  = elements[j]
+                    mer.append(elements[j])
                     j += 1
-                k += 1
 
-            while i <= midl:
-                extra_array[k] = elements[i]
-                i += 1
-                k += 1
-            while j <= right:
-                extra_array[k] = elements[j]
-                k += 1
-                j += 1
-            for p in range(left, right + 1):
-                elements[p] = extra_array[p]
-        size *= 2
+            mer.extend(elements[i:mid + 1])
+            mer.extend(elements[j:right + 1])
+            elements[left:right + 1] = mer
+
     return elements
