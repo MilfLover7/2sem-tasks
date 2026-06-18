@@ -1,0 +1,11 @@
+import math
+import random
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from matplotlib.patches import Circle, Patch
+from matplotlib.collections import PatchCollection
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import tkinter as tk
+from tkinter import messagebox
+import sys
+import time
